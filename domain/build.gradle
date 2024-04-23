@@ -1,0 +1,13 @@
+plugins {
+    id 'java'
+}
+group = 'com.elmenus'
+version = '0.0.1'
+
+java {
+    sourceCompatibility = '21'
+}
+
+repositories {
+    mavenCentral()
+}

@@ -1,0 +1,17 @@
+###
+@base_url = localhost:8080/elmenus
+## base url
+
+POST http://{{base_url}}/api/v1/user/register
+Content-Type: application/json
+
+{
+  "username": "root",
+  "password": "toor",
+  "fullName": "Mahmoud",
+  "roles": [
+    "ADMIN"
+  ]
+}
+
+

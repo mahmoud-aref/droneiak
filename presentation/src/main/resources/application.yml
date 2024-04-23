@@ -1,0 +1,30 @@
+spring:
+  application:
+    name: droneiak-app
+  webflux:
+    base-path: /elmenus
+    problemdetails:
+      enabled: true
+  data:
+    mongodb:
+      host: localhost
+      database: droneiak-db
+      username: droneiak-admin
+      password: P@$$w0rd
+      authentication-database: admin
+  mvc:
+    log-request-details: true
+    log-resolved-exception: true
+  ssl:
+    bundle:
+
+
+logging:
+  level:
+    web: debug
+    org:
+      springframework:
+        web: DEBUG
+jwt:
+  signing:
+    key: secret-key
