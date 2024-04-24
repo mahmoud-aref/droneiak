@@ -7,4 +7,6 @@ dependencies {
     implementation project(':infrastructure')
 }
 
-
+bootJar {
+    enabled = false
+}
