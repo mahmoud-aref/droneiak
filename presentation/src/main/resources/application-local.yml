@@ -7,13 +7,16 @@ spring:
       enabled: true
   data:
     mongodb:
-      username: ${DATABASE_URL}
-      password: ${DATABASE_PASSWORD}
-      uri: ${DATABASE_URL}
+      host: localhost
+      username: root
+      password: password
+      database: droneiak-db
+      authentication-database: admin
   mvc:
     log-request-details: true
     log-resolved-exception: true
 
+# self signed ssl
 server:
   ssl:
     enabled: true

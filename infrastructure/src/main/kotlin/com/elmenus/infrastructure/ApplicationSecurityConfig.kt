@@ -2,7 +2,6 @@ package com.elmenus.infrastructure
 
 import com.elmenus.infrastructure.security.authentication.ReactiveAuthenticationManager
 import com.elmenus.infrastructure.security.repository.SecurityContextRepository
-import org.springframework.cache.support.NoOpCache
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.config.annotation.method.configuration.EnableReactiveMethodSecurity
@@ -23,7 +22,7 @@ class ApplicationSecurityConfig(
     fun filterChain(http: ServerHttpSecurity): SecurityWebFilterChain {
         return http
             .authorizeExchange {
-                it.pathMatchers("/api/v1/auth/**").permitAll()
+                it.pathMatchers("/api/v1/auth/token").permitAll()
                 it.pathMatchers("/api/v1/user/register").permitAll()
                 it.anyExchange().authenticated()
             }

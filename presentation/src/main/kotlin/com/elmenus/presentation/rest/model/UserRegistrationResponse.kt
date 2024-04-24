@@ -12,7 +12,7 @@ data class UserRegistrationResponse(
         fun fromEntity(userEntity: UserEntity): UserRegistrationResponse {
             return UserRegistrationResponse(
                 UserEntity.getId(userEntity),
-                userEntity.username,
+                UserEntity.getUsername(userEntity),
                 UserEntity.getFullName(userEntity),
                 UserEntity.getRoles(userEntity)
             )

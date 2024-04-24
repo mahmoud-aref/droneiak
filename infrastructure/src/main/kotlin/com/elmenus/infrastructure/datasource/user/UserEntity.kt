@@ -10,7 +10,7 @@ import java.util.*
 @Document
 data class UserEntity(
     val user: User
-) : UserDetails {
+) {
 
     companion object {
         fun fromRequest(
@@ -37,6 +37,10 @@ data class UserEntity(
             )
         }
 
+        fun getUsername(userEntity: UserEntity): String {
+            return userEntity.user.username
+        }
+
         fun getRoles(userEntity: UserEntity): List<String> {
             return userEntity.user.roles
                 .stream().map { it.toString() }.toList()
@@ -53,31 +57,8 @@ data class UserEntity(
 
     }
 
-    override fun getAuthorities(): MutableCollection<out GrantedAuthority> {
+    fun getAuthorities(): MutableCollection<out GrantedAuthority> {
         return Collections.singletonList(GrantedAuthority { user.roles.toString() })
     }
 
-    override fun getPassword(): String {
-        return this.user.password
-    }
-
-    override fun getUsername(): String {
-        return this.user.username
-    }
-
-    override fun isAccountNonExpired(): Boolean {
-        return this.user.active
-    }
-
-    override fun isAccountNonLocked(): Boolean {
-        return this.user.active
-    }
-
-    override fun isCredentialsNonExpired(): Boolean {
-        return this.user.active
-    }
-
-    override fun isEnabled(): Boolean {
-        return this.user.active
-    }
 }

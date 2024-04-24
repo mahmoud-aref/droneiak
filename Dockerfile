@@ -1,27 +1,29 @@
-# Use the official Gradle image as a base
-FROM gradle:latest AS build
 
-# Set the working directory in the container
-WORKDIR /app
-
-# Copy all modules to app
-ADD . /app
-
-# Build the application
-RUN cd /app/presentation && gradle clean build --info
-
-
-# Stage 2: Use AdoptOpenJDK as the base image
 FROM openjdk:21-jdk-slim
 
-# Set the working directory in the container
 WORKDIR /app
 
-# Copy the built JAR file from the previous stage
-COPY --from=build /app/presentation/build/libs/*.jar /app/presentation-0.0.1.jar
+COPY settings.gradle /app/settings.gradle
+COPY build.gradle /app/build.gradle
+COPY gradlew /app/gradlew
+COPY gradle /app/gradle
 
-# Expose the port the application runs on
+COPY /application/build.gradle /app/application/build.gradle
+COPY /application/src /app/application/src
+
+COPY /domain/build.gradle /app/domain/build.gradle
+COPY /domain/src /app/domain/src
+
+COPY /infrastructure/build.gradle /app/infrastructure/build.gradle
+COPY /infrastructure/src /app/infrastructure/src
+
+COPY /presentation/build.gradle /app/presentation/build.gradle
+COPY /presentation/src /app/presentation/src
+
+RUN chmod +x gradlew
+
 EXPOSE 8080
 
-# Command to run the application
-CMD ["java", "-jar", "presentation-0.0.1.jar"]
+RUN  ./gradlew :presentation:bootJar
+
+CMD ["java", "-jar", "-Dspring.profiles.active=docker" , "/app/presentation/build/libs/presentation-0.0.1.jar"]

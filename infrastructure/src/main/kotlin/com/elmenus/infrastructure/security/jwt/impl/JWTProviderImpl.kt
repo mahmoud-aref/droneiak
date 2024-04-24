@@ -41,6 +41,17 @@ class JWTProviderImpl : JWTProvider {
         return UsernamePasswordAuthenticationToken(principal, token, authorities)
     }
 
+    override fun validateToken(token: String): Boolean {
+        val algorithm = Algorithm.HMAC256(this.jwtSigningKey)
+        val verifier = JWT.require(algorithm).build()
+        try {
+            verifier.verify(token)
+            return true
+        } catch (e: Exception) {
+            return false
+        }
+    }
+
     override fun validateTokenAndReturnUsername(token: String): String {
         try {
             val claims = getPayload(token)

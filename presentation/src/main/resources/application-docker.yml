@@ -1,0 +1,36 @@
+spring:
+  application:
+    name: droneiak-app
+  webflux:
+    base-path: /elmenus
+    problemdetails:
+      enabled: true
+  data:
+    mongodb:
+      uri: ${DATABASE_URL}
+      username: ${DATABASE_USERNAME}
+      password: ${DATABASE_PASSWORD}
+      database: ${DATABASE_NAME}
+      authentication-database: ${DATABASE_AUTHENTICATION}
+  mvc:
+    log-request-details: true
+    log-resolved-exception: true
+
+# self signed ssl
+server:
+  ssl:
+    enabled: true
+    key-alias: local_ssl
+    key-store: classpath:local-ssl.p12
+    key-password: password
+    key-store-password: password
+
+logging:
+  level:
+    web: debug
+    org:
+      springframework:
+        web: DEBUG
+jwt:
+  signing:
+    key: secret-key

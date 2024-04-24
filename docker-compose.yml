@@ -4,12 +4,13 @@ services:
 
   # database container
   droneiak-db:
-    image: mongo:4.4
+    image: mongo:latest
     restart: always
     container_name: droneiak-db
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: password
+      MONGO_INITDB_DATABASE: droneiak-db
     ports:
       - '27017:27017'
 
@@ -24,10 +25,10 @@ services:
     depends_on:
       - droneiak-db
     environment:
-      DATABASE_URL: mongodb://droneia-db:27017/droneiak-db
+      DATABASE_URL: mongodb://droneiak-db:27017/droneiak-db
       DATABASE_NAME: droneiak-db
       DATABASE_USER: root
-      DATABASE_PASSWORD: P@ssw0rd
+      DATABASE_PASSWORD: password
 
   # for dev - database admin ui
   mongo-express:
@@ -39,7 +40,6 @@ services:
     environment:
       ME_CONFIG_MONGODB_ADMINUSERNAME: root
       ME_CONFIG_MONGODB_ADMINPASSWORD: password
-      ME_CONFIG_MONGODB_URL: mongodb://root:password@droneia-db:27017/
-      ME_CONFIG_BASICAUTH: false
+      ME_CONFIG_MONGODB_URL: mongodb://root:password@droneiak-db:27017/
     ports:
       - '8081:8081'
