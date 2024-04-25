@@ -22,7 +22,7 @@ class JwtAuthenticationToken(
     }
 
     override fun setAuthenticated(isAuthenticated: Boolean) {
-        if (isAuthenticated) {
+        check (isAuthenticated) {
             throw IllegalArgumentException(
                 "Cannot set this token to trusted - use constructor which takes a GrantedAuthority list instead"
             )

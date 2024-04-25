@@ -1,6 +1,5 @@
 package com.elmenus.presentation.rest.controller
 
-import com.elmenus.application.user.usecase.UserCrudUseCase
 import com.elmenus.presentation.rest.facade.UserFacade
 import com.elmenus.presentation.rest.model.UserRegistrationResponse
 import com.elmenus.presentation.rest.model.UserRegistrationRequest

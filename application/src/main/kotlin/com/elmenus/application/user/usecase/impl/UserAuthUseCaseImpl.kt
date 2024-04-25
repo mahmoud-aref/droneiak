@@ -9,7 +9,13 @@ import reactor.core.publisher.Mono
 class UserAuthUseCaseImpl(
     private val authenticationService: AuthenticationService
 ) : UserAuthUseCase {
+
     override fun authenticate(username: String, password: String): Mono<String> {
         return authenticationService.authenticate(username, password)
     }
+
+    override fun validate(token: String): Mono<Boolean> {
+        return authenticationService.validate(token)
+    }
+
 }

@@ -4,4 +4,5 @@ import reactor.core.publisher.Mono
 
 interface UserAuthUseCase {
     fun authenticate(username: String, password: String): Mono<String>
+    fun validate(token: String): Mono<Boolean>
 }

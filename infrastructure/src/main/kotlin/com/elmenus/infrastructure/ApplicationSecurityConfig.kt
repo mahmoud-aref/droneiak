@@ -5,7 +5,6 @@ import com.elmenus.infrastructure.security.authentication.JwtReactiveAuthenticat
 import com.elmenus.infrastructure.security.repository.JwtSecurityContextRepository
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.springframework.http.HttpMethod
 import org.springframework.security.config.annotation.method.configuration.EnableReactiveMethodSecurity
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity
 import org.springframework.security.config.web.server.SecurityWebFiltersOrder
@@ -37,10 +36,7 @@ class ApplicationSecurityConfig(
                 exchangeSpec
                     .pathMatchers("/api/v1/auth/token").permitAll()
                     .pathMatchers("/api/v1/user/register").permitAll()
-                    .pathMatchers(HttpMethod.POST, "/api/v1/drones/**").hasAuthority("ADMIN")
-                    .pathMatchers(HttpMethod.PUT, "/api/v1/drones/**").hasAuthority("ADMIN")
-                    .pathMatchers(HttpMethod.DELETE, "/api/v1/drones/**").hasAuthority("ADMIN")
-                    .pathMatchers(HttpMethod.GET, "/api/v1/drones/**").hasAnyAuthority("USER", "ADMIN")
+                    .pathMatchers("/api/v1/drones/**").hasAuthority("ADMIN")
                     .anyExchange().authenticated()
             }
             .cors { it.disable() }

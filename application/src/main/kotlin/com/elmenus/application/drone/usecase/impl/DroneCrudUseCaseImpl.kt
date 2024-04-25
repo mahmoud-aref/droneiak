@@ -6,9 +6,10 @@ import com.elmenus.application.drone.model.DroneCreation
 import com.elmenus.application.drone.usecase.DroneCrudUseCase
 import com.elmenus.domain.drone.service.DroneService
 import reactor.core.publisher.Mono
+import java.util.*
 
 @UseCase
-class DroneCrudUseCaseImpl (
+class DroneCrudUseCaseImpl(
     private val droneService: DroneService
 ) : DroneCrudUseCase {
 
@@ -16,6 +17,10 @@ class DroneCrudUseCaseImpl (
         return Mono.fromFuture(
             droneService.createDrone(droneCreation.toDomainDrone())
         ).map { DroneDto(it) }
+    }
+
+    override fun getDrone(droneId: UUID): Mono<DroneDto> {
+        return Mono.empty()
     }
 
 }

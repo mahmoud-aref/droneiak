@@ -18,4 +18,8 @@ class AuthenticationServiceImpl(
             .authenticate(UsernamePasswordAuthenticationToken(username, password, null))
             .map { jwtProvider.generateToken(it) }
     }
+
+    override fun validate(token: String): Mono<Boolean> {
+        return Mono.just(jwtProvider.validateToken(token))
+    }
 }

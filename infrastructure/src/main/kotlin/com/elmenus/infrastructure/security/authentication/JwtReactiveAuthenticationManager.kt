@@ -3,7 +3,6 @@ package com.elmenus.infrastructure.security.authentication
 import com.elmenus.infrastructure.security.jwt.JwtProvider
 import com.elmenus.infrastructure.security.service.JwtReactiveUserDetailsService
 import org.springframework.security.authentication.UserDetailsRepositoryReactiveAuthenticationManager
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.Authentication
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Component

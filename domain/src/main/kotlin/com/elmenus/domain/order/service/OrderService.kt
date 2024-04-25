@@ -1,6 +1,5 @@
 package com.elmenus.domain.order.service
 
-import com.elmenus.domain.drone.model.Drone
 import com.elmenus.domain.order.model.Order
 import com.elmenus.domain.order.model.OrderItems
 import com.elmenus.domain.order.model.OrderState

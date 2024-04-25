@@ -3,8 +3,6 @@ package com.elmenus.infrastructure.datasource.user
 import com.elmenus.domain.user.model.User
 import com.elmenus.domain.user.model.UserRole
 import org.springframework.data.mongodb.core.mapping.Document
-import org.springframework.security.core.GrantedAuthority
-import org.springframework.security.core.userdetails.UserDetails
 import java.util.*
 
 @Document(collection = "users")

@@ -1,7 +1,6 @@
 package com.elmenus.domain.order.repository
 
 import com.elmenus.domain.order.model.Order
-import com.elmenus.domain.product.model.Product
 import java.util.Optional
 import java.util.UUID
 import java.util.concurrent.CompletableFuture

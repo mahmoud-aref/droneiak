@@ -6,4 +6,5 @@ import reactor.core.publisher.Mono
 
 interface DroneFacade {
     fun createDrone(request: DroneCreationRequest): Mono<DroneResponse>
+    fun getDrone(droneId: String): Mono<DroneResponse>
 }

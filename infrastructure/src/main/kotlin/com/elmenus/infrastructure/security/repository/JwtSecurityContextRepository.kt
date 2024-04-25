@@ -1,6 +1,5 @@
 package com.elmenus.infrastructure.security.repository
 
-import com.elmenus.infrastructure.security.authentication.JwtReactiveAuthenticationManager
 import com.elmenus.infrastructure.security.jwt.JwtProvider
 import org.springframework.http.HttpHeaders
 import org.springframework.security.core.context.SecurityContext
