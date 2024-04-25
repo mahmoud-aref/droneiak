@@ -39,9 +39,6 @@ class UserServiceImpl(
 
     override fun getAllUsers(): CompletableFuture<List<User>> {
         return userRepository.findAll()
-            .thenApply { optionalUsers ->
-                optionalUsers.orElseThrow { UserNotFoundException() }
-            }
     }
 
     override fun updateUser(user: User): CompletableFuture<User> {
