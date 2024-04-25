@@ -4,7 +4,7 @@ import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
 import com.auth0.jwt.interfaces.DecodedJWT
 import com.elmenus.infrastructure.security.exceptions.UnauthorizedException
-import com.elmenus.infrastructure.security.jwt.JWTProvider
+import com.elmenus.infrastructure.security.jwt.JwtProvider
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.Authentication
@@ -13,7 +13,7 @@ import org.springframework.security.core.userdetails.User
 import org.springframework.stereotype.Component
 
 @Component
-class JWTProviderImpl : JWTProvider {
+class JwtProviderImpl : JwtProvider {
 
     @Value("\${jwt.signing.key}")
     private val jwtSigningKey: String? = null

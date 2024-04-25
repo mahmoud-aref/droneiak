@@ -1,8 +1,8 @@
 package com.elmenus.infrastructure
 
 import com.elmenus.infrastructure.security.authentication.JWTServerAuthenticationConverter
-import com.elmenus.infrastructure.security.authentication.ReactiveAuthenticationManager
-import com.elmenus.infrastructure.security.repository.SecurityContextRepository
+import com.elmenus.infrastructure.security.authentication.JwtReactiveAuthenticationManager
+import com.elmenus.infrastructure.security.repository.JwtSecurityContextRepository
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.HttpMethod
@@ -19,17 +19,17 @@ import org.springframework.security.web.server.savedrequest.NoOpServerRequestCac
 @EnableWebFluxSecurity
 @EnableReactiveMethodSecurity(useAuthorizationManager = true)
 class ApplicationSecurityConfig(
-    private val securityContextRepository: SecurityContextRepository,
+    private val jwtSecurityContextRepository: JwtSecurityContextRepository,
     private val authenticationConverter: JWTServerAuthenticationConverter,
-    private val reactiveAuthenticationManager: ReactiveAuthenticationManager,
+    private val jwtReactiveAuthenticationManager: JwtReactiveAuthenticationManager,
 ) {
 
     @Bean
     fun filterChain(http: ServerHttpSecurity): SecurityWebFilterChain {
 
-        val authenticationWebFilter = AuthenticationWebFilter(reactiveAuthenticationManager)
+        val authenticationWebFilter = AuthenticationWebFilter(jwtReactiveAuthenticationManager)
         authenticationWebFilter.setServerAuthenticationConverter(authenticationConverter)
-        authenticationWebFilter.setSecurityContextRepository(securityContextRepository)
+        authenticationWebFilter.setSecurityContextRepository(jwtSecurityContextRepository)
 
         return http
             .authorizeExchange { exchangeSpec ->

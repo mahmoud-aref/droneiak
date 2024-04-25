@@ -3,7 +3,7 @@ package com.elmenus.application.drone.repository
 import com.elmenus.domain.drone.model.Drone
 import com.elmenus.domain.drone.repository.DroneRepository
 import com.elmenus.infrastructure.datasource.drone.model.DroneEntity
-import com.elmenus.infrastructure.datasource.drone.repository.mongo.DroneReactiveRepository
+import com.elmenus.infrastructure.datasource.drone.repository.mongo.ReactiveDroneRepository
 import org.springframework.stereotype.Repository
 import reactor.core.publisher.Mono
 import java.util.Optional
@@ -12,39 +12,39 @@ import java.util.concurrent.CompletableFuture
 
 @Repository
 class DroneDao(
-    private val droneReactiveRepository: DroneReactiveRepository
+    private val reactiveDroneRepository: ReactiveDroneRepository
 ) : DroneRepository {
 
     override fun findById(id: UUID): CompletableFuture<Optional<Drone>> {
-        return droneReactiveRepository.findById(id)
+        return reactiveDroneRepository.findById(id)
             .map { Optional.of(it.drone) }
             .defaultIfEmpty(Optional.empty())
             .toFuture()
     }
 
     override fun findAll(): CompletableFuture<List<Drone>> {
-        return droneReactiveRepository.findAll()
+        return reactiveDroneRepository.findAll()
             .map { it.drone }
             .collectList()
             .toFuture()
     }
 
     override fun findByName(name: String): CompletableFuture<Optional<Drone>> {
-        return droneReactiveRepository.findByDroneName(name)
+        return reactiveDroneRepository.findByDroneName(name)
             .map { Optional.of(it.drone) }
             .defaultIfEmpty(Optional.empty())
             .toFuture()
     }
 
     override fun save(drone: Drone): CompletableFuture<Optional<Drone>> {
-        return droneReactiveRepository.save(DroneEntity(drone))
+        return reactiveDroneRepository.save(DroneEntity(drone))
             .map { Optional.of(it.drone) }
             .defaultIfEmpty(Optional.empty())
             .toFuture()
     }
 
     override fun delete(drone: Drone): CompletableFuture<Boolean> {
-        return droneReactiveRepository.deleteByDroneId(drone.id)
+        return reactiveDroneRepository.deleteByDroneId(drone.id)
             .then(Mono.fromCallable { true })
             .toFuture()
     }

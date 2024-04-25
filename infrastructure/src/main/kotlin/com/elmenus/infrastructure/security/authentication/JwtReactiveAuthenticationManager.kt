@@ -1,7 +1,7 @@
 package com.elmenus.infrastructure.security.authentication
 
-import com.elmenus.infrastructure.security.jwt.JWTProvider
-import com.elmenus.infrastructure.security.service.ReactiveUserDetailsService
+import com.elmenus.infrastructure.security.jwt.JwtProvider
+import com.elmenus.infrastructure.security.service.JwtReactiveUserDetailsService
 import org.springframework.security.authentication.UserDetailsRepositoryReactiveAuthenticationManager
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.Authentication
@@ -10,9 +10,9 @@ import org.springframework.stereotype.Component
 import reactor.core.publisher.Mono
 
 @Component
-class ReactiveAuthenticationManager(
-    private val jwtProvider: JWTProvider,
-    private val userReactiveService: ReactiveUserDetailsService,
+class JwtReactiveAuthenticationManager(
+    private val jwtProvider: JwtProvider,
+    private val userReactiveService: JwtReactiveUserDetailsService,
     private val passwordEncoder: PasswordEncoder
 ) : UserDetailsRepositoryReactiveAuthenticationManager(
     userReactiveService

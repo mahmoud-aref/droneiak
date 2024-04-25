@@ -1,4 +1,4 @@
-package com.elmenus.infrastructure.security.repository
+package com.elmenus.infrastructure.datasource.user.repository
 
 import com.elmenus.infrastructure.datasource.user.UserEntity
 import org.springframework.data.repository.reactive.ReactiveCrudRepository
@@ -7,7 +7,7 @@ import reactor.core.publisher.Mono
 import java.util.UUID
 
 @Repository
-interface UserReactiveRepository : ReactiveCrudRepository<UserEntity, UUID> {
+interface ReactiveUserRepository : ReactiveCrudRepository<UserEntity, UUID> {
     fun findByUserUsername(username: String): Mono<UserEntity>
     fun existsByUserUsername(username: String): Mono<Boolean>
 }
