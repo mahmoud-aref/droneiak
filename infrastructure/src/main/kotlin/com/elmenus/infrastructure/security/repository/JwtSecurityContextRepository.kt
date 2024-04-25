@@ -15,8 +15,7 @@ class JwtSecurityContextRepository(
     private val jwtProvider: JwtProvider
 ) : ServerSecurityContextRepository {
 
-
-    override fun save(exchange: ServerWebExchange?, context: SecurityContext?): Mono<Void> {
+    override fun save(exchange: ServerWebExchange, context: SecurityContext): Mono<Void> {
         return Mono.empty()  // no session saving
     }
 

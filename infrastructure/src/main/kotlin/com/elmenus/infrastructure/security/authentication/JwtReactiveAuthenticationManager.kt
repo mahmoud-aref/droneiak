@@ -12,14 +12,14 @@ import reactor.core.publisher.Mono
 @Component
 class JwtReactiveAuthenticationManager(
     private val jwtProvider: JwtProvider,
-    private val userReactiveService: JwtReactiveUserDetailsService,
-    private val passwordEncoder: PasswordEncoder
+    private val passwordEncoder: PasswordEncoder,
+    userReactiveService: JwtReactiveUserDetailsService
 ) : UserDetailsRepositoryReactiveAuthenticationManager(
     userReactiveService
 ) {
 
     init {
-        super.setPasswordEncoder(passwordEncoder)
+        super.setPasswordEncoder(this.passwordEncoder)
     }
 
     override fun authenticate(authentication: Authentication): Mono<Authentication> {
@@ -30,9 +30,8 @@ class JwtReactiveAuthenticationManager(
             authentication.principal.toString()
         }
         return this.retrieveUser(username)
-            .map { details ->
-                UsernamePasswordAuthenticationToken(username, token, details.authorities)
-            }.flatMap { Mono.just(it) }
+            .map { details -> JwtAuthenticationToken(username, token, details.authorities) }
+            .flatMap { Mono.just(it) }
 
     }
 

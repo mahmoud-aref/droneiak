@@ -9,7 +9,7 @@ import org.springframework.web.server.ServerWebExchange
 import reactor.core.publisher.Mono
 
 @Component
-class JWTServerAuthenticationConverter : ServerAuthenticationConverter {
+class JwtServerAuthenticationConverter : ServerAuthenticationConverter {
 
     override fun convert(exchange: ServerWebExchange): Mono<Authentication> {
         return Mono.justOrEmpty(
@@ -17,6 +17,6 @@ class JWTServerAuthenticationConverter : ServerAuthenticationConverter {
         )
             .filter { it.startsWith("Bearer ") }
             .map { it.replace("Bearer ", "") }
-            .map { jwt -> UsernamePasswordAuthenticationToken(jwt, jwt) }
+            .map { jwt -> UsernamePasswordAuthenticationToken(jwt, jwt, null) }
     }
 }

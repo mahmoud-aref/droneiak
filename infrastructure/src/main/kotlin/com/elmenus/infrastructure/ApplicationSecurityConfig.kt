@@ -1,6 +1,6 @@
 package com.elmenus.infrastructure
 
-import com.elmenus.infrastructure.security.authentication.JWTServerAuthenticationConverter
+import com.elmenus.infrastructure.security.authentication.JwtServerAuthenticationConverter
 import com.elmenus.infrastructure.security.authentication.JwtReactiveAuthenticationManager
 import com.elmenus.infrastructure.security.repository.JwtSecurityContextRepository
 import org.springframework.context.annotation.Bean
@@ -20,7 +20,7 @@ import org.springframework.security.web.server.savedrequest.NoOpServerRequestCac
 @EnableReactiveMethodSecurity(useAuthorizationManager = true)
 class ApplicationSecurityConfig(
     private val jwtSecurityContextRepository: JwtSecurityContextRepository,
-    private val authenticationConverter: JWTServerAuthenticationConverter,
+    private val jwtServerAuthenticationConverter: JwtServerAuthenticationConverter,
     private val jwtReactiveAuthenticationManager: JwtReactiveAuthenticationManager,
 ) {
 
@@ -28,10 +28,11 @@ class ApplicationSecurityConfig(
     fun filterChain(http: ServerHttpSecurity): SecurityWebFilterChain {
 
         val authenticationWebFilter = AuthenticationWebFilter(jwtReactiveAuthenticationManager)
-        authenticationWebFilter.setServerAuthenticationConverter(authenticationConverter)
+        authenticationWebFilter.setServerAuthenticationConverter(jwtServerAuthenticationConverter)
         authenticationWebFilter.setSecurityContextRepository(jwtSecurityContextRepository)
 
         return http
+            .addFilterAt(authenticationWebFilter, SecurityWebFiltersOrder.AUTHENTICATION)
             .authorizeExchange { exchangeSpec ->
                 exchangeSpec
                     .pathMatchers("/api/v1/auth/token").permitAll()
@@ -46,7 +47,6 @@ class ApplicationSecurityConfig(
             .csrf { it.disable() }
             .httpBasic { it.disable() }
             .formLogin { it.disable() }
-            .addFilterAt(authenticationWebFilter, SecurityWebFiltersOrder.AUTHENTICATION)
             .requestCache { NoOpServerRequestCache.getInstance() }
             .build()
     }
