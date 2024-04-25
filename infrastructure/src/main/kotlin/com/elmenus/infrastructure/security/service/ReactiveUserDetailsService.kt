@@ -1,7 +1,6 @@
 package com.elmenus.infrastructure.security.service
 
 import com.elmenus.infrastructure.datasource.user.UserDetailsImpl
-import com.elmenus.infrastructure.security.exceptions.UsernameNotFoundException
 import com.elmenus.infrastructure.security.repository.UserReactiveRepository
 import org.springframework.security.core.userdetails.ReactiveUserDetailsService
 import org.springframework.security.core.userdetails.UserDetails

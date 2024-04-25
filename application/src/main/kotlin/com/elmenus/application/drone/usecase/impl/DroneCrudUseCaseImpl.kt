@@ -8,9 +8,9 @@ import com.elmenus.domain.drone.service.DroneService
 import reactor.core.publisher.Mono
 
 @UseCase
-class DroneCrudUseCaseImpl : DroneCrudUseCase {
-
-    lateinit var droneService: DroneService
+class DroneCrudUseCaseImpl (
+    private val droneService: DroneService
+) : DroneCrudUseCase {
 
     override fun createDrone(droneCreation: DroneCreation): Mono<Drone> {
         return Mono.fromFuture(

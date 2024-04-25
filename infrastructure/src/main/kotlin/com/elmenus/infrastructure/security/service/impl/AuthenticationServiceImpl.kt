@@ -15,7 +15,7 @@ class AuthenticationServiceImpl(
 
     override fun authenticate(username: String, password: String): Mono<String> {
         return this.reactiveAuthenticationManager
-            .authenticate(UsernamePasswordAuthenticationToken(username, password))
+            .authenticate(UsernamePasswordAuthenticationToken(username, password, null))
             .map { jwtProvider.generateToken(it) }
     }
 }

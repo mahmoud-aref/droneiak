@@ -1,7 +1,6 @@
 package com.elmenus.domain.drone.service
 
 import com.elmenus.domain.drone.model.Drone
-import com.elmenus.domain.drone.model.DroneOrder
 import com.elmenus.domain.order.model.Order
 import java.util.Optional
 import java.util.UUID

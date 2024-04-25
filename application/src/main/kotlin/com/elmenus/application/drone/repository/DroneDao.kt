@@ -11,9 +11,9 @@ import java.util.UUID
 import java.util.concurrent.CompletableFuture
 
 @Repository
-class DroneDao : DroneRepository {
-
-    private lateinit var droneReactiveRepository: DroneReactiveRepository
+class DroneDao(
+    private val droneReactiveRepository: DroneReactiveRepository
+) : DroneRepository {
 
     override fun findById(id: UUID): CompletableFuture<Optional<Drone>> {
         return droneReactiveRepository.findById(id)

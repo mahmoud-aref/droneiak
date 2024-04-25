@@ -23,3 +23,23 @@ Content-Type: application/json
   "password": "password"
 }
 
+> {% client.global.set("auth_token", response.body); %}
+
+###
+POST {{base_url}}/api/v1/drones/create
+Content-Type: application/json
+Authorization: Bearer {{auth_token}}
+
+{
+  "droneCreation": {
+    "name": "Drone 1",
+    "serialNumber": "12341235",
+    "model": "DJI Phantom 4",
+    "weight": 1.5,
+    "maxWeight": 3,
+    "maxSpeed": 20,
+    "maxFlightTime": 30,
+    "maxRange": 5000,
+    "batteryCapacity": 5000
+  }
+}

@@ -8,13 +8,16 @@ import com.elmenus.domain.drone.repository.DroneRepository
 import com.elmenus.domain.drone.service.DroneService
 import com.elmenus.domain.drone.statemachine.DroneStateMachine
 import com.elmenus.domain.order.model.Order
+import org.springframework.stereotype.Service
 import java.util.*
 import java.util.concurrent.CompletableFuture
 
-class DroneServiceImpl : DroneService {
+@Service
+class DroneServiceImpl(
+    private val droneStateMachine: DroneStateMachine,
+    private val droneRepository: DroneRepository
+) : DroneService {
 
-    private lateinit var droneStateMachine: DroneStateMachine
-    private lateinit var droneRepository: DroneRepository
 
     override fun getDroneById(id: UUID): CompletableFuture<Drone> {
         return droneRepository.findById(id)

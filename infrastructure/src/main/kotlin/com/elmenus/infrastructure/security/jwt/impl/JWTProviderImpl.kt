@@ -36,7 +36,7 @@ class JWTProviderImpl : JWTProvider {
     override fun getAuthentication(token: String): Authentication {
         val claims = getPayload(token)
         val roles = claims.getClaim("roles").asString().split(",")
-        val authorities = roles.map { role -> "ROLE_$role" }.map { SimpleGrantedAuthority(it) }
+        val authorities = roles.map { SimpleGrantedAuthority(it) }
         val principal = User(claims.subject, "", authorities)
         return UsernamePasswordAuthenticationToken(principal, token, authorities)
     }

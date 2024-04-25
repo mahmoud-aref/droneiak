@@ -57,8 +57,4 @@ data class UserEntity(
 
     }
 
-    fun getAuthorities(): MutableCollection<out GrantedAuthority> {
-        return Collections.singletonList(GrantedAuthority { user.roles.toString() })
-    }
-
 }

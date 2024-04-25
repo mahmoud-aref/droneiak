@@ -2,6 +2,7 @@ package com.elmenus.infrastructure.security.repository
 
 import com.elmenus.domain.user.model.UserRole
 import com.elmenus.infrastructure.security.authentication.ReactiveAuthenticationManager
+import com.elmenus.infrastructure.security.jwt.JWTProvider
 import org.springframework.http.HttpHeaders
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.authority.SimpleGrantedAuthority
@@ -14,9 +15,11 @@ import reactor.core.publisher.Mono
 import java.util.Collections
 
 @Component
-class SecurityContextRepository : ServerSecurityContextRepository {
+class SecurityContextRepository(
+    private val authenticationManager: ReactiveAuthenticationManager,
+    private val jwtProvider: JWTProvider
+) : ServerSecurityContextRepository {
 
-    private lateinit var authenticationManager: ReactiveAuthenticationManager
 
     override fun save(exchange: ServerWebExchange?, context: SecurityContext?): Mono<Void> {
         return Mono.empty()
@@ -27,13 +30,10 @@ class SecurityContextRepository : ServerSecurityContextRepository {
             .filter { it.startsWith("Bearer ") }
             .map { it.replace("Barer ,", "") }
             .flatMap {
-                Mono.just(
-                    UsernamePasswordAuthenticationToken(
-                        it,
-                        it,
-                        Collections.singletonList(SimpleGrantedAuthority("ROLE_${UserRole.USER}"))
-                    )
-                )
-            }.flatMap { this.authenticationManager.authenticate(it).map { SecurityContextImpl() } }
+                Mono.just(jwtProvider.getAuthentication(it)).map { SecurityContextImpl() }
+            }
+            .log()
+            .map { it }
+
     }
 }

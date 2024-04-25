@@ -13,25 +13,27 @@ import reactor.core.publisher.Mono
 class ReactiveAuthenticationManager(
     private val jwtProvider: JWTProvider,
     private val userReactiveService: ReactiveUserDetailsService,
+    private val passwordEncoder: PasswordEncoder
 ) : UserDetailsRepositoryReactiveAuthenticationManager(
     userReactiveService
 ) {
 
+    init {
+        super.setPasswordEncoder(passwordEncoder)
+    }
+
     override fun authenticate(authentication: Authentication): Mono<Authentication> {
         val token = authentication.credentials.toString()
-        // check if token here is password or jwt token
         val username = if (jwtProvider.validateToken(token)) {
             jwtProvider.validateTokenAndReturnUsername(token)
         } else {
             authentication.principal.toString()
         }
         return this.retrieveUser(username)
-            .map {
-                Mono.just(UsernamePasswordAuthenticationToken(username, token, it.authorities))
-            }
-            .flatMap {
-                it
-            }
+            .map { details ->
+                UsernamePasswordAuthenticationToken(username, token, details.authorities)
+            }.flatMap { Mono.just(it) }
+
     }
 
     override fun setPasswordEncoder(passwordEncoder: PasswordEncoder) {
