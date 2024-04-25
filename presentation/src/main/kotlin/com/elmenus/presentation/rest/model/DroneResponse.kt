@@ -1,7 +1,7 @@
 package com.elmenus.presentation.rest.model
 
-import com.elmenus.application.drone.model.Drone
+import com.elmenus.application.drone.model.DroneDto
 
 data class DroneResponse(
-    val drone: Drone
+    val droneDto: DroneDto
 )

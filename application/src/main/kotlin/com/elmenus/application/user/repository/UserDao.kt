@@ -3,7 +3,7 @@ package com.elmenus.application.user.repository
 import com.elmenus.domain.user.model.User
 import com.elmenus.domain.user.repository.UserRepository
 import com.elmenus.infrastructure.datasource.user.UserEntity
-import com.elmenus.infrastructure.datasource.user.repository.ReactiveUserRepository
+import com.elmenus.infrastructure.datasource.user.repository.mongo.ReactiveUserRepository
 import org.springframework.stereotype.Repository
 import reactor.core.publisher.Mono
 import java.util.*

@@ -1,4 +1,4 @@
-package com.elmenus.infrastructure.datasource.user.repository
+package com.elmenus.infrastructure.datasource.user.repository.mongo
 
 import com.elmenus.infrastructure.datasource.user.UserEntity
 import org.springframework.data.repository.reactive.ReactiveCrudRepository

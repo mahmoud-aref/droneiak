@@ -8,11 +8,17 @@ data class Order(
     val userId: UUID,
     val items: List<OrderItems>,
     val state: OrderState = OrderState.PLACED,
+    val totalWeight: Double,
     val totalPrice: Double
 ) {
     fun setState(state: OrderState): Order {
         return this.copy(state = state)
     }
+
+    fun updateItems(items: List<OrderItems>): Order {
+        return this.copy(items = items)
+    }
+
 }
 
 data class OrderItems(

@@ -2,6 +2,7 @@ package com.elmenus.domain.order.service.impl
 
 import com.elmenus.domain.order.exception.OrderNotFoundException
 import com.elmenus.domain.order.model.Order
+import com.elmenus.domain.order.model.OrderItems
 import com.elmenus.domain.order.model.OrderState
 import com.elmenus.domain.order.repository.OrderRepository
 import com.elmenus.domain.order.service.OrderService
@@ -97,6 +98,19 @@ class OrderServiceImpl(
         return orderRepository.findAllOrdersByUser(userId)
             .thenApply { orders ->
                 orders.orElse(emptyList())
+            }
+    }
+
+    override fun updateOrderItems(orderId: UUID, items: List<OrderItems>): CompletableFuture<Order> {
+        return orderRepository.findOrderById(orderId)
+            .thenApply { order ->
+                order.orElseThrow { OrderNotFoundException() }
+            }
+            .thenApply { order ->
+                order.updateItems(items)
+            }
+            .thenCompose { order ->
+                orderRepository.updateOrder(order)
             }
     }
 

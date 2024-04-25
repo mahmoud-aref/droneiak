@@ -14,6 +14,4 @@ interface OrderRepository {
     fun findAllOrders(): CompletableFuture<Optional<List<Order>>>
     fun findAllOrdersByState(state: String): CompletableFuture<Optional<List<Order>>>
     fun findAllOrdersByUser(userId: UUID): CompletableFuture<Optional<List<Order>>>
-    fun updateOrderState(orderId: UUID, state: String): CompletableFuture<Order>
-    fun updateOrderItems(orderId: UUID, items: List<Product>): CompletableFuture<Order>
 }

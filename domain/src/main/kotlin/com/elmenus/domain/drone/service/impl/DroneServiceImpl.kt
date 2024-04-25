@@ -70,10 +70,10 @@ class DroneServiceImpl(
     override fun loadDrone(id: UUID, order: Order): CompletableFuture<Drone> {
         return getDroneById(id)
             .thenApplyAsync { drone ->
-                if (DroneState.IDLE != drone.state) {
+                check(DroneState.IDLE != drone.state) {
                     throw IllegalStateException("Drone is not in IDLE state")
                 }
-                val droneOrder = DroneOrder(UUID.randomUUID(), drone, order)
+                val droneOrder = DroneOrder(UUID.randomUUID(), drone.id, order)
                 droneStateMachine.nex(drone)
                 drone.setDroneOrder(droneOrder)
             }.thenComposeAsync { drone ->

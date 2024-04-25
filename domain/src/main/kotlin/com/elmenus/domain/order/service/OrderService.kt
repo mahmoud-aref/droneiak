@@ -1,6 +1,8 @@
 package com.elmenus.domain.order.service
 
+import com.elmenus.domain.drone.model.Drone
 import com.elmenus.domain.order.model.Order
+import com.elmenus.domain.order.model.OrderItems
 import com.elmenus.domain.order.model.OrderState
 import java.util.UUID
 import java.util.concurrent.CompletableFuture
@@ -16,4 +18,5 @@ interface OrderService {
     fun getAllOrders(): CompletableFuture<List<Order>>
     fun getAllOrdersByState(state: OrderState): CompletableFuture<List<Order>>
     fun getAllOrdersByUser(userId: UUID): CompletableFuture<List<Order>>
+    fun updateOrderItems(orderId: UUID, items: List<OrderItems>): CompletableFuture<Order>
 }

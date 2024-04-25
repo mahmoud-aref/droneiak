@@ -32,7 +32,7 @@ data class Drone(
 
 data class DroneOrder(
     val id: UUID,
-    val drone: Drone,
+    val droneId: UUID,
     val order: Order
 )
 

@@ -4,7 +4,7 @@ import com.elmenus.domain.drone.model.Drone
 import com.elmenus.domain.drone.model.DroneState
 import java.util.*
 
-data class Drone(
+data class DroneDto(
     val drone: Drone
 )
 
@@ -36,4 +36,6 @@ data class DroneCreation(
         )
     }
 }
+
+
 
