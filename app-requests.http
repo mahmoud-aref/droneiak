@@ -23,7 +23,7 @@ Content-Type: application/json
   "password": "password"
 }
 
-> {% client.global.set("auth_token", response.body); %}
+> {% client.global.set("auth_token", response.body.token); %}
 
 ###
 POST {{base_url}}/api/v1/drones/create
