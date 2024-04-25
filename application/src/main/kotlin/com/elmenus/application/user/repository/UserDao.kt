@@ -5,6 +5,7 @@ import com.elmenus.domain.user.repository.UserRepository
 import com.elmenus.infrastructure.datasource.user.UserEntity
 import com.elmenus.infrastructure.security.repository.UserReactiveRepository
 import org.springframework.stereotype.Repository
+import reactor.core.publisher.Mono
 import java.util.*
 import java.util.concurrent.CompletableFuture
 
@@ -14,15 +15,24 @@ class UserDao(
 ) : UserRepository {
 
     override fun findById(id: UUID): CompletableFuture<Optional<User>> {
-        TODO("Not yet implemented")
+        return userReactiveRepository.findById(id)
+            .map { Optional.of(it.user) }
+            .defaultIfEmpty(Optional.empty())
+            .toFuture()
     }
 
     override fun findByUsername(username: String): CompletableFuture<Optional<User>> {
-        TODO("Not yet implemented")
+        return userReactiveRepository.findByUserUsername(username)
+            .map { Optional.of(it.user) }
+            .defaultIfEmpty(Optional.empty())
+            .toFuture()
     }
 
-    override fun findAll(): CompletableFuture<Optional<List<User>>> {
-        TODO("Not yet implemented")
+    override fun findAll(): CompletableFuture<List<User>> {
+        return userReactiveRepository.findAll()
+            .map { it.user }
+            .collectList()
+            .toFuture()
     }
 
     override fun save(user: User): CompletableFuture<User> {
@@ -32,11 +42,14 @@ class UserDao(
     }
 
     override fun delete(user: User): CompletableFuture<Boolean> {
-        TODO("Not yet implemented")
+        return userReactiveRepository.delete(UserEntity(user))
+            .then(Mono.defer { userReactiveRepository.existsById(user.id) })
+            .toFuture()
     }
 
     override fun existsByUsername(username: String): CompletableFuture<Boolean> {
-        TODO("Not yet implemented")
+        return userReactiveRepository.existsByUserUsername(username)
+            .toFuture()
     }
 
 }

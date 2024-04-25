@@ -9,4 +9,5 @@ import java.util.UUID
 @Repository
 interface UserReactiveRepository : ReactiveCrudRepository<UserEntity, UUID> {
     fun findByUserUsername(username: String): Mono<UserEntity>
+    fun existsByUserUsername(username: String): Mono<Boolean>
 }
