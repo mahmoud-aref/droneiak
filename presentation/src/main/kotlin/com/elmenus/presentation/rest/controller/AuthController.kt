@@ -1,8 +1,8 @@
 package com.elmenus.presentation.rest.controller
 
-import com.elmenus.application.user.usecase.UserAuthUseCase
+import com.elmenus.presentation.rest.facade.UserFacade
 import com.elmenus.presentation.rest.model.UserTokenRequest
-import org.springframework.web.bind.annotation.GetMapping
+import com.elmenus.presentation.rest.model.UserTokenResponse
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
@@ -12,7 +12,7 @@ import reactor.core.publisher.Mono
 @RestController
 @RequestMapping(AuthController.AUTH_URL)
 class AuthController(
-    private val userAuthUseCase: UserAuthUseCase
+    private val userFacade: UserFacade
 ) {
 
     companion object {
@@ -21,8 +21,8 @@ class AuthController(
     }
 
     @PostMapping(TOKEN_URL)
-    fun getToken(@RequestBody userTokenRequest: UserTokenRequest): Mono<String> {
-        return userAuthUseCase.authenticate(userTokenRequest.username, userTokenRequest.password)
+    fun getToken(@RequestBody userTokenRequest: UserTokenRequest): Mono<UserTokenResponse> {
+        return userFacade.authenticate(userTokenRequest)
     }
 
 }

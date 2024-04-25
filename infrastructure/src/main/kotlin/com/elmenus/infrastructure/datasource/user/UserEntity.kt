@@ -7,7 +7,7 @@ import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
 import java.util.*
 
-@Document
+@Document(collection = "users")
 data class UserEntity(
     val user: User
 ) {

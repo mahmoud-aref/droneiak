@@ -1,9 +1,8 @@
 package com.elmenus.presentation.rest.controller
 
-import com.elmenus.application.drone.usecase.DroneCrudUseCase
+import com.elmenus.presentation.rest.facade.DroneFacade
 import com.elmenus.presentation.rest.model.DroneCreationRequest
 import com.elmenus.presentation.rest.model.DroneResponse
-import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
@@ -13,7 +12,7 @@ import reactor.core.publisher.Mono
 @RestController
 @RequestMapping(DroneController.DRONE_PATH)
 class DroneController(
-    private val droneUseCase: DroneCrudUseCase
+    private val droneFacade: DroneFacade
 ) {
 
     companion object {
@@ -23,9 +22,7 @@ class DroneController(
 
     @PostMapping(DRONE_CREATE_PATH)
     fun createDrone(@RequestBody request: DroneCreationRequest): Mono<DroneResponse> {
-        return droneUseCase.createDrone(request.droneCreation)
-            .map { DroneResponse(it) }
+        return droneFacade.createDrone(request)
     }
-
 
 }

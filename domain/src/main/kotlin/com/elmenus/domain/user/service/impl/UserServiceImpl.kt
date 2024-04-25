@@ -8,9 +8,9 @@ import com.elmenus.domain.user.service.UserService
 import java.util.UUID
 import java.util.concurrent.CompletableFuture
 
-class UserServiceImpl : UserService {
-
-    private lateinit var userRepository: UserRepository
+class UserServiceImpl(
+    private val userRepository: UserRepository
+) : UserService {
 
     override fun createUser(user: User): CompletableFuture<User> {
         return userRepository.existsByUsername(user.username)
