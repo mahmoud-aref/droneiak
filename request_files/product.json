@@ -1,0 +1,9 @@
+{
+  "productCreation": {
+    "name": "Product Name",
+    "description": "Product Description",
+    "price": 100,
+    "weight": 4,
+    "imageUrl": "imageUrl"
+  }
+}

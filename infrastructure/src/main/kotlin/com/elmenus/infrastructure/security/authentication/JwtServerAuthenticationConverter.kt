@@ -17,6 +17,6 @@ class JwtServerAuthenticationConverter : ServerAuthenticationConverter {
         )
             .filter { it.startsWith("Bearer ") }
             .map { it.replace("Bearer ", "") }
-            .map { jwt -> UsernamePasswordAuthenticationToken(jwt, jwt, null) }
+            .map { jwt -> JwtAuthenticationToken(jwt, jwt, emptySet()) }
     }
 }

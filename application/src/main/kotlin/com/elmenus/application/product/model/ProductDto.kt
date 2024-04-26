@@ -24,9 +24,8 @@ data class ProductCreation(
     val name: String,
     val price: Double,
     val description: String,
-    val imageUrl: String,
-    val rate: Double,
-    val weight: Double
+    val weight: Double,
+    val imageUrl: String
 ) {
     fun toDomainProduct(): Product {
         return Product(
@@ -35,7 +34,7 @@ data class ProductCreation(
             price = price,
             description = description,
             imageUrl = imageUrl,
-            rate = rate,
+            rate = 5.0,
             weight = weight
         )
     }

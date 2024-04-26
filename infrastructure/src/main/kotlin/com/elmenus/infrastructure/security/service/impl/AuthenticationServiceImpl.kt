@@ -1,5 +1,6 @@
 package com.elmenus.infrastructure.security.service.impl
 
+import com.elmenus.infrastructure.security.authentication.JwtAuthenticationToken
 import com.elmenus.infrastructure.security.authentication.JwtReactiveAuthenticationManager
 import com.elmenus.infrastructure.security.jwt.JwtProvider
 import com.elmenus.infrastructure.security.service.AuthenticationService
@@ -15,7 +16,7 @@ class AuthenticationServiceImpl(
 
     override fun authenticate(username: String, password: String): Mono<String> {
         return this.jwtReactiveAuthenticationManager
-            .authenticate(UsernamePasswordAuthenticationToken(username, password, null))
+            .authenticate(JwtAuthenticationToken(username, password, emptySet()))
             .map { jwtProvider.generateToken(it) }
     }
 

@@ -259,3 +259,5 @@ Spresentation/src/main/kotlin/com/elmenus/presentation/rest/model/ProductRespons
 Rpresentation/src/main/kotlin/com/elmenus/presentation/rest/facade/ProductFacade.kt,6/4/64a1f9aa8897d0a94b4b35ae7e82e1e8b3ad77a2
 ‹
 [presentation/src/main/kotlin/com/elmenus/presentation/rest/facade/impl/ProductFacadeImpl.kt,d/9/d97ebcce347aad02977078c1c142942803ecd3c0
+J
+request_files/product.json,5/1/519984392afd4f64536497faeaa6f44d41a927d5

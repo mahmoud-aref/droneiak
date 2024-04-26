@@ -25,7 +25,7 @@ class AwsS3Config(
             .region(Region.of(awsProperties.region))
             .httpClient(sdkAsyncHttpClient())
             .credentialsProvider(awsCredentialsProvider())
-            .endpointOverride(URI(awsProperties.s3BucketUrl))
+            .endpointOverride(URI(awsProperties.awslocalUrl))
             .forcePathStyle(true)
             .serviceConfiguration(s3Configuration())
             .build()

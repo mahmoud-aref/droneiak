@@ -8,8 +8,8 @@ import reactor.core.publisher.Mono
 
 interface ProductFacade {
     fun createProduct(
-        productCreationRequest: ProductCreationRequest,
-        imageFilePart: Mono<FilePart>
+        imageFilePart: Mono<FilePart>,
+        productCreationRequest: Mono<ProductCreationRequest>
     ): Mono<ProductResponse>
     fun getProduct(productId: Long): Mono<ProductResponse>
     fun getProducts(): Flux<ProductResponse>

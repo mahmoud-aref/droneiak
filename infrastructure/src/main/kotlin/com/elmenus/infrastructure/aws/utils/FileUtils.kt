@@ -1,6 +1,5 @@
 package com.elmenus.infrastructure.aws.utils
 
-import com.mongodb.internal.authentication.AwsCredentialHelper.LOGGER
 import org.springframework.core.io.buffer.DataBuffer
 import org.springframework.http.codec.multipart.FilePart
 import org.springframework.util.ObjectUtils

@@ -15,10 +15,12 @@ class ProductFacadeImpl(
 ) : ProductFacade {
 
     override fun createProduct(
-        productCreationRequest: ProductCreationRequest,
-        imageFilePart: Mono<FilePart>
+        imageFilePart: Mono<FilePart>,
+        productCreationRequest: Mono<ProductCreationRequest>
     ): Mono<ProductResponse> {
-        return productCrudUseCase.createProduct(productCreationRequest.productCreation, imageFilePart)
+        return productCreationRequest
+            .map { it.productCreation }
+            .flatMap { productCrudUseCase.createProduct(it, imageFilePart) }
             .map { ProductResponse(it) }
     }
 

@@ -3,6 +3,7 @@ package com.elmenus.infrastructure.security.jwt.impl
 import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
 import com.auth0.jwt.interfaces.DecodedJWT
+import com.elmenus.infrastructure.security.authentication.JwtAuthenticationToken
 import com.elmenus.infrastructure.security.exceptions.UnauthorizedException
 import com.elmenus.infrastructure.security.jwt.JwtProvider
 import org.springframework.beans.factory.annotation.Value
@@ -38,7 +39,7 @@ class JwtProviderImpl : JwtProvider {
         val roles = claims.getClaim("roles").asString().split(",")
         val authorities = roles.map { SimpleGrantedAuthority(it) }
         val principal = User(claims.subject, "", authorities)
-        return UsernamePasswordAuthenticationToken(principal, token, authorities)
+        return JwtAuthenticationToken(principal, token, authorities)
     }
 
     override fun validateToken(token: String): Boolean {

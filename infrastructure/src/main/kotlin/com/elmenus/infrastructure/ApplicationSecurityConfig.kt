@@ -37,7 +37,8 @@ class ApplicationSecurityConfig(
                     .pathMatchers("/api/v1/auth/token").permitAll()
                     .pathMatchers("/api/v1/user/register").permitAll()
                     .pathMatchers("/api/v1/drones/**").hasAuthority("ADMIN")
-                    .anyExchange().authenticated()
+                    .pathMatchers("/api/v1/products/**").hasAuthority("ADMIN")
+                    .anyExchange().denyAll()
             }
             .cors { it.disable() }
             .csrf { it.disable() }

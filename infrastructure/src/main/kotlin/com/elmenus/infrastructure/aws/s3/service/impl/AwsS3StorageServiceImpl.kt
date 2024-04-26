@@ -6,6 +6,7 @@ import com.elmenus.infrastructure.aws.s3.model.S3FileResponse
 import com.elmenus.infrastructure.aws.s3.model.UploadStatus
 import com.elmenus.infrastructure.aws.s3.service.AwsS3StorageService
 import com.elmenus.infrastructure.aws.utils.FileUtils
+import kotlinx.coroutines.reactive.collect
 import org.springframework.http.MediaType
 import org.springframework.http.codec.multipart.FilePart
 import org.springframework.stereotype.Service
@@ -16,7 +17,6 @@ import software.amazon.awssdk.core.async.AsyncResponseTransformer
 import software.amazon.awssdk.services.s3.S3AsyncClient
 import software.amazon.awssdk.services.s3.model.*
 import java.nio.ByteBuffer
-import java.util.concurrent.CompletableFuture
 
 
 @Service
@@ -26,18 +26,18 @@ class AwsS3StorageServiceImpl(
 ) : AwsS3StorageService {
 
     override fun uploadObject(filePart: FilePart): Mono<S3FileResponse> {
+
         val filename = filePart.filename()
         val metadata = mapOf(Pair("filename", filename))
         val mediaType = filePart.headers().contentType ?: MediaType.APPLICATION_OCTET_STREAM
-        val s3AsyncClientMultipartUpload = awsS3Client
-            .createMultipartUpload(
-                CreateMultipartUploadRequest.builder()
-                    .contentType(mediaType.toString())
-                    .key(filename)
-                    .metadata(metadata)
-                    .bucket(awsProperties.s3BucketName)
-                    .build()
-            )
+        val s3AsyncClientMultipartUpload = awsS3Client.createMultipartUpload(
+            CreateMultipartUploadRequest.builder()
+                .contentType(mediaType.toString())
+                .key(filename)
+                .metadata(metadata)
+                .bucket(awsProperties.s3BucketName)
+                .build()
+        )
 
         val uploadStatus = UploadStatus(mediaType.toString(), filename)
 
@@ -48,18 +48,12 @@ class AwsS3StorageServiceImpl(
                 filePart.content()
             }
             .bufferUntil {
-                uploadStatus.addBuffered(it.readableByteCount())
-                check(uploadStatus.buffered >= awsProperties.multipartMinPartSize.toInt()) {
-                    uploadStatus.buffered = 0
-                    true
-                }
-                false
+                true
             }
             .map { FileUtils.dataBufferToByteBuffer(it) }
             .flatMap { uploadPartObject(uploadStatus, it) }
-            .onBackpressureBuffer()
-            .reduce(uploadStatus) { status, completedPart ->
-                status.completedParts.plus(Pair(completedPart.partNumber(), completedPart))
+            .reduce(uploadStatus) { status, part ->
+                status.addPart(part)
                 status
             }
             .flatMap { completeMultipartUpload(it) }
@@ -73,8 +67,6 @@ class AwsS3StorageServiceImpl(
                     response.eTag()
                 )
             }
-
-
     }
 
     override fun getByteObject(key: String): Mono<ByteArray> {
@@ -92,43 +84,36 @@ class AwsS3StorageServiceImpl(
     }
 
     override fun getObjects(): Flux<AwsS3Object> {
-        return Flux.from(
-            awsS3Client.listObjectsV2Paginator(
-                ListObjectsV2Request.builder().bucket(awsProperties.s3BucketName).build()
-            )
-                .flatMapIterable { it.contents() }
-                .map { AwsS3Object(it.key(), it.lastModified(), it.eTag(), it.size()) }
-        )
+        return Flux.from(awsS3Client.listObjectsV2Paginator(
+            ListObjectsV2Request.builder().bucket(awsProperties.s3BucketName).build()
+        ).flatMapIterable { it.contents() }
+            .map { AwsS3Object(it.key(), it.lastModified(), it.eTag(), it.size()) })
     }
 
     private fun uploadPartObject(uploadStatus: UploadStatus, buffer: ByteBuffer): Mono<CompletedPart> {
         val partNumber = uploadStatus.addedPartCounter
-
-        val uploadPartResponseCompletableFuture: CompletableFuture<UploadPartResponse> = awsS3Client.uploadPart(
-            UploadPartRequest.builder()
-                .bucket(awsProperties.s3BucketName)
-                .key(uploadStatus.fileKey)
-                .partNumber(partNumber)
-                .uploadId(uploadStatus.uploadId)
-                .contentLength(buffer.capacity().toLong())
-                .build(),
-            AsyncRequestBody.fromPublisher(Mono.just(buffer))
-        )
-
-        return Mono
-            .fromFuture(uploadPartResponseCompletableFuture)
-            .map { uploadPartResult: UploadPartResponse ->
-                FileUtils.checkSdkResponse(uploadPartResult)
-                CompletedPart.builder()
-                    .eTag(uploadPartResult.eTag())
+        return Mono.fromFuture {
+            awsS3Client.uploadPart(
+                UploadPartRequest.builder()
+                    .bucket(awsProperties.s3BucketName)
+                    .key(uploadStatus.fileKey)
                     .partNumber(partNumber)
-                    .build()
-            }
+                    .uploadId(uploadStatus.uploadId)
+                    .contentLength(buffer.capacity().toLong())
+                    .build(),
+                AsyncRequestBody.fromPublisher(Mono.just(buffer))
+            )
+        }.map {
+            FileUtils.checkSdkResponse(it)
+            uploadStatus.addPart(
+                CompletedPart.builder().partNumber(partNumber).eTag(it.eTag()).build()
+            )
+        }
     }
 
     private fun completeMultipartUpload(uploadStatus: UploadStatus): Mono<CompleteMultipartUploadResponse> {
         val multipartUpload = CompletedMultipartUpload.builder()
-            .parts(uploadStatus.completedParts.values)
+            .parts(uploadStatus.completeParts.values)
             .build()
         return Mono.fromFuture(
             awsS3Client.completeMultipartUpload(

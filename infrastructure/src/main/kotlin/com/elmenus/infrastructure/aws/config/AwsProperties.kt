@@ -11,5 +11,5 @@ class AwsProperties {
     lateinit var region: String
     lateinit var s3BucketName: String
     lateinit var multipartMinPartSize: Integer
-    lateinit var s3BucketUrl: String
+    lateinit var awslocalUrl: String
 }
