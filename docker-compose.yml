@@ -2,6 +2,23 @@
 # database container
 services:
 
+  localstack:
+    container_name: localstack_main
+    image: localstack/localstack:latest
+    ports:
+      - "127.0.0.1:4566:4566"            # LocalStack Gateway
+      - "127.0.0.1:4510-4559:4510-4559"  # external services port range
+    environment:
+      - DEBUG=1
+      - AWS_ACCESS_KEY_ID=test
+      - AWS_SECRET_ACCESS_KEY=test
+      - AWS_DEFAULT_REGION=eu-west-1 # This is the region where your localstack mocks to be running
+      - DOCKER_HOST=unix:///var/run/docker.sock
+    volumes:
+      - "${LOCALSTACK_VOLUME_DIR:-./volume}:/var/lib/localstack"
+      - "/var/run/docker.sock:/var/run/docker.sock"
+      - ./aws/init-aws.sh:/etc/localstack/init/ready.d/init-aws.sh
+
   # database container
   droneiak-db:
     image: mongo:latest
@@ -24,6 +41,7 @@ services:
       - "8080:8080"
     depends_on:
       - droneiak-db
+      - localstack_main
     environment:
       DATABASE_URL: mongodb://droneiak-db:27017/droneiak-db
       DATABASE_NAME: droneiak-db

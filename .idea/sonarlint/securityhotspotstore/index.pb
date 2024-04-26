@@ -245,3 +245,5 @@ hinfrastructure/src/main/kotlin/com/elmenus/infrastructure/aws/s3/service/impl/A
 Qinfrastructure/src/main/kotlin/com/elmenus/infrastructure/aws/utils/AwsSdkUtil.kt,2/f/2f44901a64ed1b9da54a20dc5e2552217202632e
 €
 Pinfrastructure/src/main/kotlin/com/elmenus/infrastructure/aws/utils/FileUtils.kt,c/7/c748f3f3c7e545c50c92205c1a87f74f894e8383
+;
+init-aws.sh,5/9/592ab85699a6b6fc744d74643dd02f5ce675cc02

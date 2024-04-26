@@ -16,6 +16,15 @@ spring:
     log-request-details: true
     log-resolved-exception: true
 
+# awslocal
+aws:
+  access-key: test
+  secret-key: test
+  region: eu-west-1
+  s3-bucket-name: my-test-bucket
+  multipart-min-part-size: 5242880 # 5MB
+  s3-bucket-url: http://localhost:4566/
+
 # self signed ssl
 server:
   ssl:
