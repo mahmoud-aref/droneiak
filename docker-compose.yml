@@ -2,7 +2,7 @@
 # database container
 services:
 
-  localstack:
+  localstack_main:
     container_name: localstack_main
     image: localstack/localstack:latest
     ports:
