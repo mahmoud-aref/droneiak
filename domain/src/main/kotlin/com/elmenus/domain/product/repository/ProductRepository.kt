@@ -6,9 +6,9 @@ import java.util.UUID
 import java.util.concurrent.CompletableFuture
 
 interface ProductRepository {
-    fun getProducts(): CompletableFuture<Optional<List<Product>>>
-    fun getProduct(id: UUID): CompletableFuture<Product>
-    fun addProduct(product: Product): CompletableFuture<Product>
+    fun findAllProducts(): CompletableFuture<Optional<List<Product>>>
+    fun findProductById(id: UUID): CompletableFuture<Optional<Product>>
+    fun save(product: Product): CompletableFuture<Product>
     fun updateProduct(product: Product): CompletableFuture<Product>
-    fun deleteProduct(id: Int): CompletableFuture<Boolean>
+    fun deleteProduct(id: UUID): CompletableFuture<Boolean>
 }

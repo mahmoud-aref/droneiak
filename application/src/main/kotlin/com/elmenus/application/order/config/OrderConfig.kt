@@ -5,19 +5,14 @@ import com.elmenus.domain.order.repository.OrderRepository
 import com.elmenus.domain.order.service.OrderService
 import com.elmenus.domain.order.service.impl.OrderServiceImpl
 import com.elmenus.domain.order.statemachine.OrderStateMachine
-import com.elmenus.infrastructure.datasource.order.repository.mongo.ReactiveOrderRepository
+import com.elmenus.infrastructure.datasource.mongo.order.repository.ReactiveOrderRepository
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 
 @Configuration
 class OrderConfig(
-    private val reactiveOrderRepository: ReactiveOrderRepository
+    private val orderDao: OrderDao
 ) {
-
-    @Bean
-    fun orderRepository(): OrderRepository {
-        return OrderDao(reactiveOrderRepository)
-    }
 
     @Bean
     fun orderStateMachine(): OrderStateMachine {
@@ -26,7 +21,7 @@ class OrderConfig(
 
     @Bean
     fun orderService(): OrderService {
-        return OrderServiceImpl(orderRepository(), orderStateMachine())
+        return OrderServiceImpl(orderDao, orderStateMachine())
     }
 
 }

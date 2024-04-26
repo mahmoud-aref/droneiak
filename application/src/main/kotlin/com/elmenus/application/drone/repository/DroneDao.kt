@@ -2,8 +2,8 @@ package com.elmenus.application.drone.repository
 
 import com.elmenus.domain.drone.model.Drone
 import com.elmenus.domain.drone.repository.DroneRepository
-import com.elmenus.infrastructure.datasource.drone.model.DroneEntity
-import com.elmenus.infrastructure.datasource.drone.repository.mongo.ReactiveDroneRepository
+import com.elmenus.infrastructure.datasource.mongo.drone.model.DroneEntity
+import com.elmenus.infrastructure.datasource.mongo.drone.repository.ReactiveDroneRepository
 import org.springframework.stereotype.Repository
 import reactor.core.publisher.Mono
 import java.util.Optional

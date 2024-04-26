@@ -1,7 +1,7 @@
 package com.elmenus.infrastructure.security.service
 
-import com.elmenus.infrastructure.datasource.user.UserDetailsImpl
-import com.elmenus.infrastructure.datasource.user.repository.mongo.ReactiveUserRepository
+import com.elmenus.infrastructure.datasource.mongo.user.model.UserDetailsImpl
+import com.elmenus.infrastructure.datasource.mongo.user.repository.ReactiveUserRepository
 import org.springframework.security.core.userdetails.ReactiveUserDetailsService
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.stereotype.Service

@@ -3,8 +3,8 @@ package com.elmenus.application.order.repository
 import com.elmenus.domain.order.model.Order
 import com.elmenus.domain.order.model.OrderState
 import com.elmenus.domain.order.repository.OrderRepository
-import com.elmenus.infrastructure.datasource.order.model.OrderEntity
-import com.elmenus.infrastructure.datasource.order.repository.mongo.ReactiveOrderRepository
+import com.elmenus.infrastructure.datasource.mongo.order.model.OrderEntity
+import com.elmenus.infrastructure.datasource.mongo.order.repository.ReactiveOrderRepository
 import org.springframework.stereotype.Repository
 import reactor.core.publisher.Mono
 import java.util.*

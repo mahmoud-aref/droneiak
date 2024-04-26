@@ -1,6 +1,5 @@
 package com.elmenus.infrastructure.aws.config
 
-import com.sun.jdi.IntegerValue
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.stereotype.Component
 
@@ -11,6 +10,6 @@ class AwsProperties {
     lateinit var secretKey: String
     lateinit var region: String
     lateinit var s3BucketName: String
-    lateinit var multipartMinPartSize: IntegerValue
+    lateinit var multipartMinPartSize: Integer
     lateinit var s3BucketUrl: String
 }

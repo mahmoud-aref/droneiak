@@ -49,7 +49,7 @@ class AwsS3StorageServiceImpl(
             }
             .bufferUntil {
                 uploadStatus.addBuffered(it.readableByteCount())
-                check(uploadStatus.buffered >= awsProperties.multipartMinPartSize.value()) {
+                check(uploadStatus.buffered >= awsProperties.multipartMinPartSize.toInt()) {
                     uploadStatus.buffered = 0
                     true
                 }

@@ -1,6 +1,6 @@
 package com.elmenus.presentation.rest.model
 
-import com.elmenus.infrastructure.datasource.user.UserEntity
+import com.elmenus.infrastructure.datasource.mongo.user.model.UserEntity
 
 data class UserRegistrationResponse(
     val id: String,

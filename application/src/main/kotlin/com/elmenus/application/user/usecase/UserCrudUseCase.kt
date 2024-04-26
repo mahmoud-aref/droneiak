@@ -1,6 +1,6 @@
 package com.elmenus.application.user.usecase
 
-import com.elmenus.infrastructure.datasource.user.UserEntity
+import com.elmenus.infrastructure.datasource.mongo.user.model.UserEntity
 import reactor.core.publisher.Mono
 
 interface UserCrudUseCase {
